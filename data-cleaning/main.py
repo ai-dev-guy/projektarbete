@@ -28,7 +28,7 @@ def cleanData(filename: str):
 
     parsed_df = df[
         [
-            'dt','timezone','name','coord.lat','coord.lon','main.temp','main.humidity','main.pressure','month','temp_target','temp_lag_1','temp_lag_3'
+            'hour', 'month', 'temp','humidity','pressure','temp_lag_1','temp_lag_3','temp_target'
         ]
     ]
     parsed_df = parsed_df.dropna()
