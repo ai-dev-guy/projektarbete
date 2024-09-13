@@ -41,9 +41,9 @@ jobs:
       # Step 5: Deploy to Cloud Functions
       - name: Deploy to Cloud Functions
         run: |
-          gcloud functions deploy hello_world \
+          gcloud functions deploy callapi \
             --runtime python39 \
             --trigger-http \
             --allow-unauthenticated \
             --no-gen2  \
-            --source ./my-cloud-function
+            --source ./fetch-api-cloud-function
