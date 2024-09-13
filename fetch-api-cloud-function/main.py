@@ -1,0 +1,2 @@
+def callapi():
+    return 'data'
