@@ -7,7 +7,7 @@ def callapi(request):
     lat= 59.3293
     lon = 18.0686
     apiKey = os.getenv('apiKey')
-    apiAdress = os.getenv('apiAdress')
+    apiAdress = 'https://api.openweathermap.org/'
     url = f'{apiAdress}data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}'
 
     try:

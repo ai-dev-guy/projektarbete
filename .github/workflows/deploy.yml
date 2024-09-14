@@ -45,5 +45,6 @@ jobs:
             --runtime python39 \
             --trigger-http \
             --allow-unauthenticated \
-            --no-gen2  \
+            --no-gen2 \
+            --set-env-vars API_KEY=${{ secrets.API_KEY }} \
             --source ./fetch-api-cloud-function
