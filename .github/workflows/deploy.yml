@@ -43,7 +43,7 @@ jobs:
         run: |
           gcloud functions deploy callapi \
             --runtime python39 \
-            --trigger-http \
+            --trigger-topic  weather\
             --allow-unauthenticated \
             --no-gen2 \
             --set-env-vars API_KEY=${{ secrets.API_KEY }} \
