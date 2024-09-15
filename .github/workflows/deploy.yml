@@ -32,7 +32,7 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # Step 4: Verify authentication (Optional, for debugging)
+      # Step 4: Verify authentication
       - name: Verify authentication
         run: |
           gcloud auth list   # This will list the authenticated accounts
