@@ -21,7 +21,7 @@ def callapi(request, context):
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
-        item = bucket.blob('weather.json')
+        item = bucket.blob('day1_weather.json')
         log.info('GCS Variables set')
         #Upload
         item.upload_from_string(response.content)
