@@ -44,8 +44,7 @@ jobs:
         run: |
           gcloud functions deploy cleaning \
             --runtime python39 \
-            --trigger-resource dataengineering-projektarbete-bucket
-            --trigger-event  google.storage.object.finalize\
+            --trigger-topic  weather\
             --allow-unauthenticated \
             --no-gen2 \
             --set-env-vars API_KEY=${{ secrets.API_KEY }} \
