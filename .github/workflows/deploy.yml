@@ -39,7 +39,7 @@ jobs:
           gcloud config list # This will display the project and active account
 
       # Step 5: Deploy to Cloud Functions
-      - name: Deploy to Cloud Functions
+      - name: Deploy to Cloud Functions Day1
         run: |
           gcloud functions deploy callapi_day1 \
             --runtime python39 \
@@ -49,13 +49,12 @@ jobs:
             --set-env-vars API_KEY=${{ secrets.API_KEY }} \
             --source ./fetch-api-cloud-function/day1
 
-            - name: Deploy to Cloud Functions
-            run: |
-              gcloud functions deploy callapi_day2 \
-                --runtime python39 \
-                --trigger-topic  weather\
-                --allow-unauthenticated \
-                --no-gen2 \
-                --set-env-vars API_KEY=${{ secrets.API_KEY }} \
-                --source ./fetch-api-cloud-function/day2
-                
+      - name: Deploy to Cloud Functions Day2
+        run: |
+          gcloud functions deploy callapi_day2 \
+            --runtime python39 \
+            --trigger-topic  weather\
+            --allow-unauthenticated \
+            --no-gen2 \
+            --set-env-vars API_KEY=${{ secrets.API_KEY }} \
+            --source ./fetch-api-cloud-function/day2
