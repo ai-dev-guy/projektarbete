@@ -18,7 +18,7 @@ def cleaning(request, context):
     #File validation
     item_new = item_old.download_as_text()
     log.info(f'Download success {item_new}')
-    try:
+    """    try:
         with open(item_new) as f:
             data = json.load(f)
     except json.JSONDecodeError:
@@ -26,9 +26,9 @@ def cleaning(request, context):
         return None
     except FileNotFoundError:
         print(f"Error: The file {item_new} was not found.")
-        return None
+        return None """
 
-    df = pd.json_normalize(data)
+    df = pd.json_normalize(item_new)
 
     df['hour'] = pd.to_datetime(df['dt'],unit='s').dt.hour
     df['month'] = pd.to_datetime(df['dt'],unit='s').dt.month
