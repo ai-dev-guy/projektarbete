@@ -31,3 +31,4 @@ def callapi_day2(request, context):
     except Exception as e:
         log.error(f'Upload failed! Status code: {e}')
         return None
+    #
