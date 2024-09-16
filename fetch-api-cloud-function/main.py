@@ -13,6 +13,7 @@ def callapi(request, context):
         #Variables for Python
         current_time = int(time.time())
         start_time = current_time - (48*60*60)
+        log.info(f'Current time is {current_time}, start_time is {start_time}')
         lat= 59.3293
         lon = 18.0686
         apiKey = os.getenv('API_KEY')
