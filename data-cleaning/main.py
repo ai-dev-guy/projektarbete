@@ -6,7 +6,7 @@ import base64
 from flask import jsonify
 import logging
  
-def cleaning(context):
+def cleaning(request, context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     #Variables For GCS
