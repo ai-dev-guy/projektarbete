@@ -3,18 +3,21 @@ from google.cloud import storage
 import base64
 from flask import jsonify
 import logging
-import os 
+import os
+import time
  
 def callapi(request, context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     try:
         #Variables for Python
+        current_time = int(time.time())
+        start_time = current_time - (48*60*60)
         lat= 59.3293
         lon = 18.0686
         apiKey = os.getenv('API_KEY')
         apiAdress = 'https://api.openweathermap.org/'
-        url = f'{apiAdress}data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}'
+        url = f'{apiAdress}data/2.5/weather?lat={lat}&lon={lon}&type=hour&start={start_time}&end={current_time}&appid={apiKey}'
         response = requests.get(url)
         log.info('Python Variables set')
         #Variables For GCS
