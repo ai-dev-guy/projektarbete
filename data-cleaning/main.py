@@ -1,18 +1,31 @@
 import pandas as pd
 import json
-
 from datetime import datetime as dt
-
-
-def cleanData(filename: str):
+import requests
+from google.cloud import storage
+import base64
+from flask import jsonify
+import logging
+ 
+def cleaning(request, context):
+    logging.basicConfig(level=logging.INFO)
+    log = logging.getLogger(__name__)
+    #Variables For GCS
+    client = storage.Client()
+    storage_name = 'dataengineering-projektarbete-bucket'
+    bucket = client.bucket(storage_name)
+    item_old = bucket.blob('weather.json')
+    log.info('GCS Variables set')
+    #File validation
+    item_new = item_old.downloaded_as_text()
     try:
-        with open(filename) as f:
+        with open(item_new) as f:
             data = json.load(f)
     except json.JSONDecodeError:
-        print(f"Error: The file {filename} is not a valid JSON file.")
+        print(f"Error: The file {item_new} is not a valid JSON file.")
         return
     except FileNotFoundError:
-        print(f"Error: The file {filename} was not found.")
+        print(f"Error: The file {item_new} was not found.")
         return
 
     df = pd.json_normalize(data)
@@ -33,7 +46,15 @@ def cleanData(filename: str):
     ]
     parsed_df = parsed_df.dropna()
 
-    filename_processed = filename.replace('.json', '.csv')
-    parsed_df.to_csv(filename_processed, index=False)
+    #filename_processed = filename.replace('.json', '.csv')
+    item_new = parsed_df.to_csv('weather.csv', index=False)
 
-    cleanData('weather.json')
+    try:
+        #Upload
+        item_new.upload_from_string(parsed_df)
+        log.info('Upload successful!')
+        return item_new
+    
+    except Exception as e:
+        log.error(f'Upload failed! Status code: {e}')
+        return None
