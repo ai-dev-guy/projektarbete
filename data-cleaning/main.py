@@ -16,8 +16,8 @@ def cleaning(request, context):
     item_old = bucket.blob('weather.json')
     log.info('GCS Variables set')
     #File validation
-    item_new = item_old.downloaded_as_text()
-    log.info('Download success')
+    item_new = item_old.download_as_text()
+    log.info(f'Download success {item_new}')
     try:
         with open(item_new) as f:
             data = json.load(f)
