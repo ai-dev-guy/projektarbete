@@ -41,7 +41,7 @@ jobs:
       # Step 5: Deploy to Cloud Functions
       - name: Deploy to Cloud Functions cleaning
         run: |
-          gcloud functions deploy callapi_day1 \
+          gcloud functions deploy cleaning \
             --runtime python39 \
             --trigger-event  google.storage.object.finalize\
             --allow-unauthenticated \
