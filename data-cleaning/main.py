@@ -17,15 +17,16 @@ def cleaning(request, context):
     log.info('GCS Variables set')
     #File validation
     item_new = item_old.downloaded_as_text()
+    log.info('Download success')
     try:
         with open(item_new) as f:
             data = json.load(f)
     except json.JSONDecodeError:
         print(f"Error: The file {item_new} is not a valid JSON file.")
-        return
+        return None
     except FileNotFoundError:
         print(f"Error: The file {item_new} was not found.")
-        return
+        return None
 
     df = pd.json_normalize(data)
 
