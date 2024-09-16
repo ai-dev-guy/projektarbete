@@ -1,13 +1,12 @@
 import pandas as pd
 import json
 from datetime import datetime as dt
-import requests
 from google.cloud import storage
 import base64
 from flask import jsonify
 import logging
  
-def cleaning(request, context):
+def cleaning(context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     #Variables For GCS
