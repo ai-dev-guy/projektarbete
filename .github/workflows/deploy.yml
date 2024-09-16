@@ -9,7 +9,8 @@ name: Deploy to GCP Cloud Functions
 on:
   push:
     branches:
-      - dev/Cloud-storage-(clean)
+      - dev
+      - Cloud-storage-(clean)
 
 jobs:
   deploy:
@@ -43,6 +44,7 @@ jobs:
         run: |
           gcloud functions deploy cleaning \
             --runtime python39 \
+            --trigger-resource dataengineering-projektarbete-bucket
             --trigger-event  google.storage.object.finalize\
             --allow-unauthenticated \
             --no-gen2 \
