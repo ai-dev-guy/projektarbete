@@ -5,7 +5,7 @@ from flask import jsonify
 import logging
 import os
  
-def callapi(request, context):
+def callapi_day1(request, context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     try:
