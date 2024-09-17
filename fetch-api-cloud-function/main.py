@@ -36,7 +36,7 @@ def api_fetch(request, context):
 
         #IO BUFFER
         cloud_buffer = StringIO()
-        combined_df_csv = combined_df.to_csv(cloud_buffer, index=False)
+        combined_df.to_csv(cloud_buffer, index=False)
         log.info('DF buffer set')
         
         #Upload
