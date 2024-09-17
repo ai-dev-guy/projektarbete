@@ -4,21 +4,33 @@ import base64
 from flask import jsonify
 import logging
 import os
+import datetime
 import pandas as pd
 from io import StringIO
- 
+
+
 def api_fetch(request, context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     try:
         #Variables for Python
-        lat= 59.3293
-        lon = 18.0686
-        apiKey = os.getenv('API_KEY')
-        apiAdress = 'https://api.openweathermap.org/'
-        url = f'{apiAdress}data/2.5/weather?lat={lat}&lon={lon}&type=hour&appid={apiKey}'
-        response = requests.get(url)
-        log.info('Python Variables set')
+        # lat= 59.3293
+        # lon = 18.0686
+        # apiKey = os.getenv('API_KEY')
+        # apiAdress = 'https://api.openweathermap.org/'
+        # url = f'{apiAdress}data/2.5/weather?lat={lat}&lon={lon}&type=hour&appid={apiKey}'
+
+        #Datetime Variables
+        today = datetime.date.today()
+        two_days_ago = today - datetime.timedelta(days=2)
+        twodaysago_date = two_days_ago.strftime("%Y-%m-%d")
+        today_date= today.strftime("%Y-%m-%d")
+        weatherapidotcom_key= os.getenv('Weatherapidotcom_Key')
+        log.info('Datetime Variables set')
+
+        weatherapi = f'http://api.weatherapi.com/v1/history.json?key={weatherapidotcom_key}&q=Stockholm&dt={twodaysago_date}&end_dt={today_date}'
+        response = requests.get(weatherapi)
+        
         #Variables For GCS
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
