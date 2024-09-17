@@ -50,7 +50,7 @@ def api_fetch(request, context):
         log.info(f'Data combined {combined_df}')
         
         #Upload
-        item.upload_from_string(combined_df.to_csv(), content_type='text/csv')
+        item.upload_from_string(combined_df.to_csv(index=False), content_type='text/csv')
         log.info(f'Upload successful! Status code: {response.status_code}')
         return jsonify(response.json())
     
