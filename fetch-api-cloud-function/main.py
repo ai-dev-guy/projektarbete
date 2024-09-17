@@ -48,6 +48,8 @@ def api_fetch(request, context):
         log.info('Dataframes set')
         log.info(df_stored)
         log.info(df_new)
+        print(df_stored)
+        print(df_new)
         combined_df = pd.concat([df_stored, df_new])
         log.info(f'Data combined {combined_df}')
         
