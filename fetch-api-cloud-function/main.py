@@ -40,10 +40,11 @@ def api_fetch(request, context):
         
         #Compile data
         df_new = pd.json_normalize(response.content)
-        df_old = pd.read_csv('gs://dataengineering-projektarbete-bucket/weather.csv')
+        df_old = pd.read_csv('dataengineering-projektarbete-bucket/weather.csv')
         #item_old = item.download_as_string().decode('utf-8')
         #df_old = pd.read_csv(StringIO(item_old))
-        log.info(f'Download success')
+        #log.info(f'Download success')
+        log.info('Dataframes set')
         log.info(df_old)
         log.info(df_new)
         combined_df = pd.concat([df_old, df_new])
