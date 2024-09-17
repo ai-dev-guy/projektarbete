@@ -28,7 +28,7 @@ def api_fetch(request, context):
         weatherapidotcom_key= os.getenv('Weatherapidotcom_Key')
         log.info('Datetime Variables set')
 
-        weatherapi = f'http://api.weatherapi.com/v1/history.json?key={weatherapidotcom_key}&q=Stockholm&dt={twodaysago_date}&end_dt={today_date}'
+        weatherapi = f'http://api.weatherapi.com/v1/history.json?key=d33fbab3242745b19d4100723242108&q=Stockholm&dt={twodaysago_date}&end_dt={today_date}'
         response = requests.get(weatherapi)
         
         #Variables For GCS
