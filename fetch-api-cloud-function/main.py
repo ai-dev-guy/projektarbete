@@ -6,7 +6,7 @@ import logging
 import os
 import datetime
 import pandas as pd
-#from io import StringIO
+from io import BytesIO
 
 
 def api_fetch(request, context):
@@ -40,14 +40,15 @@ def api_fetch(request, context):
         
         #Compile data
         df_new = pd.json_normalize(response.content)
-        df_old = pd.read_csv('dataengineering-projektarbete-bucket/weather.csv')
+        stored_csv = item.download_as_bytes()
+        df_stored = pd.read_csv(BytesIO(stored_csv))
         #item_old = item.download_as_string().decode('utf-8')
         #df_old = pd.read_csv(StringIO(item_old))
         #log.info(f'Download success')
         log.info('Dataframes set')
-        log.info(df_old)
+        log.info(df_stored)
         log.info(df_new)
-        combined_df = pd.concat([df_old, df_new])
+        combined_df = pd.concat([df_stored, df_new])
         log.info(f'Data combined {combined_df}')
         
         #Upload
