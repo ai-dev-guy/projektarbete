@@ -5,7 +5,6 @@ from flask import jsonify
 import logging
 import os
 import pandas as pd
-from io import StringIO
  
 def api_fetch(request, context):
     logging.basicConfig(level=logging.INFO)
@@ -33,18 +32,13 @@ def api_fetch(request, context):
         log.info(f'Download success {type(item_old)}')
         df_old = pd.json_normalize(item_old)
         combined_df = pd.concat(df_new, df_old)
-
-        #IO BUFFER
-        cloud_buffer = StringIO()
-        combined_df.to_csv(cloud_buffer, index=False)
-        log.info('DF buffer set')
         
         #Upload
-        item.upload_from_string(cloud_buffer.getvalue(), content_type='text/csv')
-        log.info(f'Upload successful! Status code: {response.status_code}, {cloud_buffer.getvalue()}')
+        item.upload_from_string(combined_df.to_csv(), content_type='text/csv')
+        log.info(f'Upload successful! Status code: {response.status_code}')
         return jsonify(response.json())
     
     except Exception as e:
-        log.error(f'Upload failed! Status code: {e}')
+        log.error(f'Upload failed! Status code: {response.status_code} df {combined_df}')
         return None
         
