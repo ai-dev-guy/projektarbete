@@ -47,4 +47,4 @@ jobs:
             --allow-unauthenticated \
             --no-gen2 \
             --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
-            --source ./fetch-api-cloud-function/day1
+            --source ./fetch-api-cloud-function
