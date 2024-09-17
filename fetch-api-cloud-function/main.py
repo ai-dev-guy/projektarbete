@@ -46,10 +46,8 @@ def api_fetch(request, context):
         #df_old = pd.read_csv(StringIO(item_old))
         #log.info(f'Download success')
         log.info('Dataframes set')
-        log.info(df_stored)
-        log.info(df_new)
-        print(df_stored)
-        print(df_new)
+        print(f'STORED: {df_stored}')
+        print(f'NEW: {df_new}')
         combined_df = pd.concat([df_stored, df_new])
         log.info(f'Data combined {combined_df}')
         
