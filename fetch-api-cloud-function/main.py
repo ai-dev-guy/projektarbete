@@ -43,7 +43,7 @@ def api_fetch(request, context):
         df_new = pd.json_normalize(df_new)
         item_old = item.download_as_string().decode('utf-8')
         df_old = pd.read_csv(StringIO(item_old))
-        log.info(f'Download success {type(df_old), df_old}')
+        log.info(f'Download success df_old {type(df_old), df_old} df_new {df_new}')
         combined_df = pd.concat([df_new, df_old])
         log.info(f'Data combined {combined_df}')
         
