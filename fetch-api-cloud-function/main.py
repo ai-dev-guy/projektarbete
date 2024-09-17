@@ -39,7 +39,7 @@ def api_fetch(request, context):
         log.info('GCS Variables set')
         
         #Compile data
-        new_json = response.content.decode('utf8').replace("'", '"')
+        new_json = response.content
         df_new = pd.json_normalize(new_json)
         print(f'RESPONSE: {response.content}')
         print(f'RESPONSE: {type(response.content)}')
