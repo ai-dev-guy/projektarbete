@@ -40,7 +40,7 @@ def api_fetch(request, context):
         
         #Compile data
         df_new = pd.json_normalize(response.content)
-        print(f'RESPONSE: {response.content}')
+        print(f'RESPONSE: {type(response.content)} {response.content}')
         stored_csv = item.download_as_bytes()
         df_stored = pd.read_csv(BytesIO(stored_csv))
         #item_old = item.download_as_string().decode('utf-8')
