@@ -36,21 +36,16 @@ def api_fetch(request, context):
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
         item = bucket.blob('weather.csv')
-        log.info('GCS Variables set')
         
         #Compile data
         new_json = response.json()
         df_new = pd.json_normalize(new_json)
-        print(f'RESPONSE: {response.content}')
-        print(f'RESPONSE: {type(response.content)}')
         stored_csv = item.download_as_bytes()
         df_stored = pd.read_csv(BytesIO(stored_csv))
         #item_old = item.download_as_string().decode('utf-8')
         #df_old = pd.read_csv(StringIO(item_old))
         #log.info(f'Download success')
-        log.info('Dataframes set')
-        print(f'STORED: {df_stored}')
-        print(f'NEW: {df_new}')
+        log.info('GCS Variables set')
         combined_df = pd.concat([df_stored, df_new])
         log.info(f'Data combined {combined_df}')
         
