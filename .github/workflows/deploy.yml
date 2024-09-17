@@ -46,7 +46,7 @@ jobs:
             --trigger-topic  weather\
             --allow-unauthenticated \
             --no-gen2 \
-            --set-env-vars API_KEY=${{ secrets.API_KEY }} \
+            --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
             --source ./fetch-api-cloud-function/day1
 
       - name: Deploy to Cloud Functions Day2
@@ -56,5 +56,5 @@ jobs:
             --trigger-topic  weather\
             --allow-unauthenticated \
             --no-gen2 \
-            --set-env-vars API_KEY=${{ secrets.API_KEY }} \
+            --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
             --source ./fetch-api-cloud-function/day2
