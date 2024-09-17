@@ -5,7 +5,7 @@ from flask import jsonify
 import logging
 import os
 import pandas as pd
-import io
+from io import StringIO
  
 def api_fetch(request, context):
     logging.basicConfig(level=logging.INFO)
@@ -29,11 +29,11 @@ def api_fetch(request, context):
         #Compile data
         df_new = response.content
         df_new = pd.json_normalize(df_new)
-        item_old = item.download_as_text()
-        df_old = pd.read_csv(io.StringIO(item_old), sep=",")
+        item_old = item.download_as_string().decode('utf-8')
+        df_old = pd.read_csv(StringIO(item_old))
         log.info(f'Download success {type(df_old), df_old}')
         combined_df = pd.concat([df_new, df_old])
-        log.info('Data combined')
+        log.info(f'Data combined {combined_df}')
         
         #Upload
         item.upload_from_string(combined_df.to_csv(), content_type='text/csv')
