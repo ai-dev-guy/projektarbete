@@ -4,8 +4,10 @@ import base64
 from flask import jsonify
 import logging
 import os
+import pandas as pd
+from io import StringIO
  
-def callapi_day2(request, context):
+def api_fetch(request, context):
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     try:
@@ -21,14 +23,28 @@ def callapi_day2(request, context):
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
-        item = bucket.blob('day2_weather.json')
+        item = bucket.blob('weather.csv')
         log.info('GCS Variables set')
+        
+        #Compile data
+        df_new = response.content
+        df_new = pd.json_normalize(df_new)
+        item_old = item.download_as_text()
+        log.info(f'Download success {type(item_old)}')
+        df_old = pd.json_normalize(item_old)
+        combined_df = pd.concat(df_new, df_old)
+
+        #IO BUFFER
+        cloud_buffer = StringIO()
+        combined_df_csv = combined_df.to_csv(cloud_buffer, index=False)
+        log.info('DF buffer set')
+        
         #Upload
-        item.upload_from_string(response.content)
+        item.upload_from_string(cloud_buffer.getvalue(), content_type='text/csv')
         log.info(f'Upload successful! Status code: {response.status_code}')
         return jsonify(response.json())
     
     except Exception as e:
         log.error(f'Upload failed! Status code: {e}')
         return None
-    #
+        
