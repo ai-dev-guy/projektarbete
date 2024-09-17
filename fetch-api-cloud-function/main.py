@@ -41,7 +41,7 @@ def api_fetch(request, context):
         
         #Upload
         item.upload_from_string(cloud_buffer.getvalue(), content_type='text/csv')
-        log.info(f'Upload successful! Status code: {response.status_code}')
+        log.info(f'Upload successful! Status code: {response.status_code}, {cloud_buffer.getvalue()}')
         return jsonify(response.json())
     
     except Exception as e:
