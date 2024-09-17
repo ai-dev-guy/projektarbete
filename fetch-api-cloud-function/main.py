@@ -28,10 +28,9 @@ def api_fetch(request, context):
         #Compile data
         df_new = response.content
         df_new = pd.json_normalize(df_new)
-        item_old = item.download_as_text()
-        log.info(f'Download success {type(item_old), item_old}')
-        df_old = item_old
-        combined_df = pd.concat(df_new, df_old)
+        df_old = item.download_as_text()
+        log.info(f'Download success {type(df_old), df_old}')
+        combined_df = pd.concat([df_new, df_old])
         log.info('Data combined')
         
         #Upload
