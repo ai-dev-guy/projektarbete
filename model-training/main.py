@@ -1,20 +1,23 @@
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, root_mean_squared_error
-import xgboost as xgb
 import joblib
 import pandas as pd
 import logging
 
 
-def trainModel(model_name: str, csv_file: str) -> str:
+def trainModel(model_name: str, csv_file: str) -> dict:
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
 
     try:
         if not model_name.endswith('.pkl'):
             raise ValueError('The model filename must end with .pkl')
-        else:
+        
+        try:
             model = joblib.load(model_name)
+        except FileNotFoundError:
+            log.error(f"Model file {model_name} not found. Please ensure the model exists or provide a valid model name.")
+            return None
 
         try:
             df = pd.read_csv(csv_file)
@@ -33,7 +36,6 @@ def trainModel(model_name: str, csv_file: str) -> str:
         
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
-        model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, max_depth=3, learning_rate=0.1)
         model.fit(X_train, y_train)
 
         y_pred = model.predict(X_test)
@@ -44,9 +46,10 @@ def trainModel(model_name: str, csv_file: str) -> str:
         log.info(f"Root Mean Squared Error: {rmse:.2f}°C")
         
         if mae < 1.5 and rmse < 2:
-            status = "Acceptable performance; new model is approved."
+            status = "Acceptable performance; new model is approved"
             log.info(f'Training complete. {status}')
             joblib.dump(model, model_name)
+            log.info(f'Saved new model as {model_name}')
         else:
             status = "Poor performance; new model is discarded."
             log.error(f'Training complete. {status}')
@@ -56,3 +59,10 @@ def trainModel(model_name: str, csv_file: str) -> str:
     except Exception as e:
         log.error(f'Model training failed! Error: {str(e)}')
         return None
+    
+if __name__ == "__main__":
+    try:
+        trainModel("weather_forecasting_model_stockholm_xgb.pkl", "processed_weather_data.csv")
+    except Exception as e:
+        logging.error(f"An error occurred: {str(e)}")
+        raise
