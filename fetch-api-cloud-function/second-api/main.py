@@ -14,7 +14,7 @@ def fetch_forecast(request, context):
         lon = 18.0686
         #apiKey = os.getenv('API_KEY')
         apiAdress = 'https://api.openweathermap.org/'
-        url = f'{apiAdress}data/2.5/forecast?lat={lat}&lon={lon}&type=hour&appid=06882e2af9076f52990e2fb9d9c4c543'
+        url = f'{apiAdress}data/2.5/forecast?lat={lat}&lon={lon}&type=hour&appid=06882e2af9076f52990e2fb9d9c4c543&units=metric'
         response = requests.get(url)
         log.info('Python Variables set')
         #Variables For GCS
