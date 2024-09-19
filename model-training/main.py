@@ -10,14 +10,15 @@ import pickle
 def trainModel(request, context) -> dict:
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
-    model_name: str
-    csv_file: str
+    model_name = 'weather_forecasting_model_stockholm_xgb.pkl'
+    #model_name: str
+    #csv_file: str
     try:
         #Variables For GCS
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
-        item_model = bucket.blob('weather_forecasting_model_stockholm_xgb.pkl')
+        item_model = bucket.blob(model_name)
         item_processed = bucket.blob('processed_weather_data.csv')
         csv_data = item_processed.download_as_bytes()
         model_data = item_model.download_as_bytes()
