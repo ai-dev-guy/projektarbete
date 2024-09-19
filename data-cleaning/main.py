@@ -69,3 +69,4 @@ def cleanData(request, context):  # Tar default filnamnsargument om inga värden
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
         raise """
+
