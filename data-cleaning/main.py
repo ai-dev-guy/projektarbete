@@ -5,7 +5,7 @@ from google.cloud import storage
 #import json
 from io import BytesIO
 #
-def cleanData():  # Tar default filnamnsargument om inga värden anges
+def cleanData(request, context):  # Tar default filnamnsargument om inga värden anges
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     input_filename='raw_weather_data.json'
