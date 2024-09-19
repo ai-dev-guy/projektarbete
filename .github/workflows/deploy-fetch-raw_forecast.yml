@@ -9,7 +9,7 @@ name: Deploy to GCP Cloud Functions
 on:
   push:
     branches:
-      - dev/deploy-to-gcpcf
+      - main
 
 jobs:
   deploy:
