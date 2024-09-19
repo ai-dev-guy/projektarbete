@@ -29,30 +29,30 @@ def cleanData(request):  # Tar default filnamnsargument om inga värden anges
     except Exception as e:
         log.error(f"An unexpected error occurred while reading the file: {str(e)}")
         raise
+    try:    
+        required_columns = ['time', 'temp_c', 'pressure_mb', 'humidity']
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        if missing_columns:
+            log.error(f"Error: Missing columns in the input data: {', '.join(missing_columns)}")
+            raise ValueError(f"Missing columns: {', '.join(missing_columns)}")
 
-    required_columns = ['time', 'temp_c', 'pressure_mb', 'humidity']
-    missing_columns = [col for col in required_columns if col not in df.columns]
-    if missing_columns:
-        log.error(f"Error: Missing columns in the input data: {', '.join(missing_columns)}")
-        raise ValueError(f"Missing columns: {', '.join(missing_columns)}")
+        df['hour'] = pd.to_datetime(df['time']).dt.hour
+        df['month'] = pd.to_datetime(df['time']).dt.month
+        df['temp'] = df['temp_c']
+        df['temp_lag_1'] = df['temp_c'].shift(1)
+        df['temp_lag_3'] = df['temp_c'].shift(3)
+        df['pressure'] = df['pressure_mb']
+        df['humidity'] = df['humidity']
+        df['temp_target'] = df['temp_c'].shift(-24)
+        
+        columns_to_keep = ['hour', 'month', 'temp', 'humidity', 'pressure', 'temp_lag_1', 'temp_lag_3', 'temp_target']
+        df = df[columns_to_keep]
 
-    df['hour'] = pd.to_datetime(df['time']).dt.hour
-    df['month'] = pd.to_datetime(df['time']).dt.month
-    df['temp'] = df['temp_c']
-    df['temp_lag_1'] = df['temp_c'].shift(1)
-    df['temp_lag_3'] = df['temp_c'].shift(3)
-    df['pressure'] = df['pressure_mb']
-    df['humidity'] = df['humidity']
-    df['temp_target'] = df['temp_c'].shift(-24)
-    
-    columns_to_keep = ['hour', 'month', 'temp', 'humidity', 'pressure', 'temp_lag_1', 'temp_lag_3', 'temp_target']
-    df = df[columns_to_keep]
+        df = df[:-24]
+        parsed_df = df.dropna()
+        log.info(f"Processed {len(parsed_df)} rows of data")
 
-    df = df[:-24]
-    parsed_df = df.dropna()
-    log.info(f"Processed {len(parsed_df)} rows of data")
-
-    try:
+        
         #Upload
         item.upload_from_string(parsed_df.to_csv(index=False), content_type='text/csv')
         #parsed_df.to_csv(output_filename, index=False)
