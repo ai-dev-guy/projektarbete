@@ -5,8 +5,8 @@ from flask import jsonify
 import logging
 import os
 import datetime
-import pandas as pd
-from io import BytesIO
+#import pandas as pd
+#from io import BytesIO
 
 
 def api_fetch(request, context):
