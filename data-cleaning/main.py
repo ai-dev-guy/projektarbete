@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 
-from datetime import datetime as dt
+from datetime import datetime
 
 
 def cleanData(filename: str):
