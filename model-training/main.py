@@ -58,7 +58,8 @@ def trainModel() -> dict:
         if mae < 1.5 and rmse < 2:
             status = "Acceptable performance; new model is approved"
             log.info(f'Training complete. {status}')
-            joblib.dump(model, model_name)
+            model_bytes = joblib.dump(model)
+            item_model.upload_from_string(model_bytes)
             log.info(f'Saved new model as {model_name}')
         else:
             status = "Poor performance; new model is discarded."
