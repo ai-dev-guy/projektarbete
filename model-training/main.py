@@ -58,7 +58,7 @@ def trainModel(request, context) -> dict:
         if mae < 1.5 and rmse < 2:
             status = "Acceptable performance; new model is approved"
             log.info(f'Training complete. {status}')
-            model_bytes = pickle.dump(model, model_name)
+            model_bytes = pickle.dumps(model)
             item_model.upload_from_string(model_bytes)
             log.info(f'Saved new model as {model_name}')
         else:
