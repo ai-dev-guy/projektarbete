@@ -7,7 +7,7 @@ from google.cloud import storage
 from io import BytesIO
 import pickle
 
-def trainModel() -> dict:
+def trainModel(request, context) -> dict:
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
     model_name: str
