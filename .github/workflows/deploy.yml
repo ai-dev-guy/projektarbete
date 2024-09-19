@@ -10,7 +10,7 @@ on:
   push:
     branches:
       - dev
-      - Cloud-storage-(clean)
+      - model-training
 
 jobs:
   deploy:
