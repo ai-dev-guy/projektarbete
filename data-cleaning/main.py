@@ -1,15 +1,16 @@
 import pandas as pd
 import logging
 from google.cloud import storage
-from flask import jsonify
-import json
+#from flask import jsonify
+#import json
 import csv
 from io import StringIO
 
-def cleanData(input_filename="raw_weather_data.json", output_filename="processed_weather_data.csv"):  # Tar default filnamnsargument om inga värden anges
+def cleanData(request):  # Tar default filnamnsargument om inga värden anges
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
-
+    input_filename="raw_weather_data.json"
+    output_filename="processed_weather_data.csv"
     try:
         #Variables For GCS
         client = storage.Client()
