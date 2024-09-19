@@ -8,7 +8,7 @@ from io import BytesIO
 def cleanData(request, context):  # Tar default filnamnsargument om inga värden anges
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
-    input_filename='raw_weather_data.json'
+    input_filename='raw_weather_data.csv'
     output_filename='processed_weather_data.csv'
     try:
         #Variables For GCS
