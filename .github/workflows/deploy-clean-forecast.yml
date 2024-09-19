@@ -1,16 +1,12 @@
 name: Deploy to GCP Cloud Functions
 
-# on:
-#   workflow_run: # Runs after the first workflow
-#     workflows: ["Lint"]
-#     types:
-#       - completed
-
 on:
-  push:
-    branches:
-      - dev
-      - model-training
+  workflow_run: # Runs after the first workflow
+    workflows: ["Lint"]
+    types:
+      - completed
+    filters:
+    branches: [dev/clean_forecast]
 
 jobs:
   deploy:
