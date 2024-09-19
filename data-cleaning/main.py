@@ -16,6 +16,7 @@ def cleanData(request, context):  # Tar default filnamnsargument om inga värden
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
         item = bucket.blob(input_filename)
+        item_processed = bucket.blob(output_filename)
         csv_data = item.download_as_bytes()
         csv_file = BytesIO(csv_data)
         df = pd.read_csv((csv_file))
@@ -54,7 +55,7 @@ def cleanData(request, context):  # Tar default filnamnsargument om inga värden
 
         
         #Upload
-        item.upload_from_string(parsed_df.to_csv(index=False), content_type='text/csv')
+        item_processed.upload_from_string(parsed_df.to_csv(index=False), content_type='text/csv')
         #parsed_df.to_csv(output_filename, index=False)
         log.info(f"Saved processed data to {output_filename}")
     except Exception as e:
