@@ -1,0 +1,50 @@
+name: Deploy fetch weather to GCP Cloud Functions
+
+# on:
+#   workflow_run: # Runs after the first workflow
+#     workflows: ["Lint"]
+#     types:
+#       - completed
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Authenticate with Google Cloud
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }} # Use the service account key stored in secrets
+
+      # Step 3: Set up Google Cloud SDK
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      # Step 4: Verify authentication
+      - name: Verify authentication
+        run: |
+          gcloud auth list   # This will list the authenticated accounts
+          gcloud config list # This will display the project and active account
+
+      # Step 5: Deploy to Cloud Functions
+      - name: Deploy to Cloud Functions api_fetch
+        run: |
+          gcloud functions deploy api_fetch \
+            --runtime python39 \
+            --trigger-topic  weather\
+            --allow-unauthenticated \
+            --no-gen2 \
+            --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
+            --source ./fetch-api-cloud-function/fetch-raw

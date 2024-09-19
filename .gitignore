@@ -1,4 +1,5 @@
 .DS_store
+google-cloud-sdk/
 .venv
 .ruff_cache
-google-cloud-sdk/
+.fetch-api-cloud-function/day1
