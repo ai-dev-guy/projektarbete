@@ -1,4 +1,4 @@
-name: Deploy to GCP Cloud Functions
+name: Deploy fetch weather to GCP Cloud Functions
 
 # on:
 #   workflow_run: # Runs after the first workflow
