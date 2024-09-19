@@ -26,7 +26,10 @@ def cleaned_forecast_data(response, context):
         'temp_max': item['main']['temp_max']
         }
     cleaned_forecast_data.append(extracted_data)
-    item_tidy.upload_from_string(cleaned_forecast_data)
+
+    cleaned_data_json = json.dumps(cleaned_forecast_data)
+
+    item_tidy.upload_from_string(cleaned_data_json)
 
 
 
