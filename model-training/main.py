@@ -23,9 +23,8 @@ def trainModel(request, context) -> dict:
         csv_data = item_processed.download_as_bytes()
         model_data = item_model.download_as_bytes()
         csv_file = BytesIO(csv_data)
-        model = pickle.loads(model_data)
         try:
-            model = joblib.load(model_name)
+            model = joblib.loads(model_data)
         except FileNotFoundError:
             log.error(f"Model file {model_name} not found. Please ensure the model exists or provide a valid model name.")
             return None
