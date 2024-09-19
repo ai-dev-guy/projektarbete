@@ -39,16 +39,6 @@ jobs:
           gcloud config list # This will display the project and active account
 
       # Step 5: Deploy to Cloud Functions
-      - name: Deploy to Cloud Functions api_fetch
-        run: |
-          gcloud functions deploy api_fetch \
-            --runtime python39 \
-            --trigger-topic  weather\
-            --allow-unauthenticated \
-            --no-gen2 \
-            --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
-            --source ./fetch-api-cloud-function/fetch-raw
-
       - name: Deploy to Cloud Functions fetch_forecast
         run: |
           gcloud functions deploy fetch_forecast \
