@@ -3,16 +3,25 @@ from sklearn.metrics import mean_absolute_error, root_mean_squared_error
 import joblib
 import pandas as pd
 import logging
+from google.cloud import storage
+from io import BytesIO
 
-
-def trainModel(model_name: str, csv_file: str) -> dict:
+def trainModel() -> dict:
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
-
+    model_name: str
+    csv_file: str
     try:
+        #Variables For GCS
+        client = storage.Client()
+        storage_name = 'dataengineering-projektarbete-bucket'
+        bucket = client.bucket(storage_name)
+        item_model = bucket.blob('weather_forecasting_model_stockholm_xgb.pkl')
+        item_processed = bucket.blob('processed_weather_data.csv')
+        csv_data = item_model.download_as_bytes()
+        csv_file = BytesIO(csv_data)
         if not model_name.endswith('.pkl'):
             raise ValueError('The model filename must end with .pkl')
-        
         try:
             model = joblib.load(model_name)
         except FileNotFoundError:
@@ -20,7 +29,7 @@ def trainModel(model_name: str, csv_file: str) -> dict:
             return None
 
         try:
-            df = pd.read_csv(csv_file)
+            df = pd.read_csv((csv_file))
         except pd.errors.EmptyDataError:
             raise ValueError(f'The file {csv_file} is empty or not a valid CSV file.')
         except FileNotFoundError:
@@ -60,9 +69,9 @@ def trainModel(model_name: str, csv_file: str) -> dict:
         log.error(f'Model training failed! Error: {str(e)}')
         return None
     
-if __name__ == "__main__":
+""" if __name__ == "__main__":
     try:
         trainModel("weather_forecasting_model_stockholm_xgb.pkl", "processed_weather_data.csv")
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
-        raise
+        raise """
