@@ -3,26 +3,22 @@ import logging
 from google.cloud import storage
 #from flask import jsonify
 #import json
-import csv
-from io import StringIO
+from io import BytesIO
 
 def cleanData(request):  # Tar default filnamnsargument om inga värden anges
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
-    input_filename="raw_weather_data.json"
-    output_filename="processed_weather_data.csv"
+    input_filename='raw_weather_data.json'
+    output_filename='processed_weather_data.csv'
     try:
         #Variables For GCS
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
         item = bucket.blob(input_filename)
-        csv_data = item.download_as_text()
-        csv_file = StringIO(csv_data)
-        item_csv = csv.reader(csv_file)
-        log.info('GCS Variables set')
-
-        df = pd.read_csv((item_csv))
+        csv_data = item.download_as_bytes()
+        csv_file = BytesIO(csv_data)
+        df = pd.read_csv((csv_file))
         log.info(f"Successfully loaded data from {input_filename}")
     except pd.errors.EmptyDataError:
         log.error(f"Error: The file {input_filename} is empty.")
