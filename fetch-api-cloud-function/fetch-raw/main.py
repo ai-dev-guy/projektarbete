@@ -35,7 +35,7 @@ def api_fetch(request, context):
         client = storage.Client()
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
-        item = bucket.blob('weather.csv')
+        item = bucket.blob('weather.json')
         log.info('GCS Variables set')
         #Compile data
         #new_json = response.json()
