@@ -53,7 +53,7 @@ def api_fetch(request, context):
 
         #CSV-FRIENDLY
         data_list = []
-        forecast_data = response.json
+        forecast_data = response.json()
         forecast_days = forecast_data['forecast']['forecastday']
         
         for day in forecast_days:
