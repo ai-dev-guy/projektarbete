@@ -40,9 +40,9 @@ jobs:
           gcloud config list # This will display the project and active account
 
       # Step 5: Deploy to Cloud Functions
-      - name: Deploy to Cloud Functions cleaning
+      - name: Deploy to Cloud Functions cleanData
         run: |
-          gcloud functions deploy cleaning \
+          gcloud functions deploy cleanData \
             --runtime python39 \
             --trigger-topic  weather\
             --allow-unauthenticated \

@@ -60,9 +60,9 @@ def cleanData(input_filename="weather_data.json", output_filename="processed_wea
         raise
 
 
-if __name__ == "__main__":
+""" if __name__ == "__main__":
     try:
         cleanData("raw_weather_data.csv", "processed_weather_data.csv")
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
-        raise
+        raise """
