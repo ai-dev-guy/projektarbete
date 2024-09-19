@@ -4,7 +4,7 @@ from google.cloud import storage
 #from flask import jsonify
 #import json
 from io import BytesIO
-
+#
 def cleanData():  # Tar default filnamnsargument om inga värden anges
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
