@@ -2,3 +2,4 @@
 google-cloud-sdk/
 .venv
 .ruff_cache
+.fetch-api-cloud-function/day1
