@@ -24,7 +24,7 @@ def trainModel(request, context) -> dict:
         model_data = item_model.download_as_bytes()
         csv_file = BytesIO(csv_data)
         try:
-            model = joblib.loads(model_data)
+            model = pickle.loads(model_data)
         except FileNotFoundError:
             log.error(f"Model file {model_name} not found. Please ensure the model exists or provide a valid model name.")
             return None
@@ -58,7 +58,7 @@ def trainModel(request, context) -> dict:
         if mae < 1.5 and rmse < 2:
             status = "Acceptable performance; new model is approved"
             log.info(f'Training complete. {status}')
-            model_bytes = joblib.dump(model)
+            model_bytes = pickle.dump(model)
             item_model.upload_from_string(model_bytes)
             log.info(f'Saved new model as {model_name}')
         else:
