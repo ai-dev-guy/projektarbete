@@ -43,7 +43,7 @@ jobs:
         run: |
           gcloud functions deploy api_fetch \
             --runtime python39 \
-            --trigger-topic  weather\
+            --trigger-topic  fetch\
             --allow-unauthenticated \
             --no-gen2 \
             --set-env-vars API_KEY=${{ secrets.Weatherapidotcom_Key }} \
