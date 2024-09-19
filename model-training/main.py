@@ -5,6 +5,7 @@ import pandas as pd
 import logging
 from google.cloud import storage
 from io import BytesIO
+import pickle
 
 def trainModel() -> dict:
     logging.basicConfig(level=logging.INFO)
@@ -18,10 +19,10 @@ def trainModel() -> dict:
         bucket = client.bucket(storage_name)
         item_model = bucket.blob('weather_forecasting_model_stockholm_xgb.pkl')
         item_processed = bucket.blob('processed_weather_data.csv')
-        csv_data = item_model.download_as_bytes()
+        csv_data = item_processed.download_as_bytes()
+        model_data = item_model.download_as_bytes()
         csv_file = BytesIO(csv_data)
-        if not model_name.endswith('.pkl'):
-            raise ValueError('The model filename must end with .pkl')
+        model = pickle.loads(model_data)
         try:
             model = joblib.load(model_name)
         except FileNotFoundError:
