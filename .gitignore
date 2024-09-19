@@ -1,1 +1,4 @@
 .DS_store
+.venv
+.ruff_cache
+google-cloud-sdk/
