@@ -36,25 +36,26 @@ def api_fetch(request, context):
         storage_name = 'dataengineering-projektarbete-bucket'
         bucket = client.bucket(storage_name)
         item = bucket.blob('weather.csv')
-        
+        log.info('GCS Variables set')
         #Compile data
-        new_json = response.json()
-        df_new = pd.json_normalize(new_json)
-        stored_csv = item.download_as_bytes()
-        df_stored = pd.read_csv(BytesIO(stored_csv))
+        #new_json = response.json()
+        #df_new = pd.json_normalize(new_json)
+        #stored_csv = item.download_as_bytes()
+        #df_stored = pd.read_csv(BytesIO(stored_csv))
         #item_old = item.download_as_string().decode('utf-8')
         #df_old = pd.read_csv(StringIO(item_old))
         #log.info(f'Download success')
-        log.info('GCS Variables set')
-        combined_df = pd.concat([df_stored, df_new])
-        log.info(f'Data combined {combined_df}')
+        #log.info('GCS Variables set')
+        #combined_df = pd.concat([df_stored, df_new])
+        #log.info(f'Data combined {combined_df}')
         
         #Upload
-        item.upload_from_string(combined_df.to_csv(index=False), content_type='text/csv')
+        #item.upload_from_string(combined_df.to_csv(index=False), content_type='text/csv')
+        item.upload_from_string(response.content)
         log.info(f'Upload successful! Status code: {response.status_code}')
         return jsonify(response.json())
     
     except Exception as e:
-        log.error(f'Upload failed! Status code: {response.status_code} df {combined_df}')
+        log.error(f'Upload failed {e}! Status code: {response.status_code}')
         return None
         
